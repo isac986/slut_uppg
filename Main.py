@@ -53,3 +53,22 @@ def add_person(people):
     save_to_csv(people)
     print("Person tillagd!")
     pause()
+    
+def show_details(people):
+    show_list(people)
+    if not people:
+        pause()
+        return
+    try:
+        choice = int(input("Välj person (nummer): ")) - 1
+        person = people[choice]
+        print("\n--- Detaljer ---")
+        print(f"Namn: {person['namn']}")
+        print(f"Mobil: {person['mobil']}")
+        print(f"Anteckningar: {person.get('anteckningar', '')}")
+    except (ValueError, IndexError):
+        print("Ogiltigt val.")
+        pause()
+        
+def edit_person(people):
+    show_list(people)
