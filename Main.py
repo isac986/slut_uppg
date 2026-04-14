@@ -72,3 +72,61 @@ def show_details(people):
         
 def edit_person(people):
     show_list(people)
+    if not people:
+        pause()
+        return
+
+    try:
+        choice = int(input("Välj person att redigera: ")) - 1
+        person = people[choice]
+        new_name = input(f"Nytt namn ({person['namn']}): ")
+        new_mobile = input(f"Nytt mobilnummer ({person['mobil']}): ")
+        new_notes = input(f"Nya anteckningar ({person.get('anteckningar', '')}): ")
+
+        if new_name:
+            person['namn'] = new_name
+        if new_mobile:
+            person['mobil'] = new_mobile
+        if new_notes:
+            person['anteckningar'] = new_notes
+
+        sort_list(people)
+        save_to_csv(people)
+        print("Person uppdaterad!")
+    except (ValueError, IndexError):
+        print("Ogiltigt val.")
+    pause()
+    
+def delete_person(people):
+    show_list(people)
+    if not people:
+        pause()
+        return
+
+    try:
+        choice = int(input("Välj person att ta bort: ")) - 1
+        removed = people.pop(choice)
+        print(f"{removed['namn']} har tagits bort.")
+        save_to_csv(people)
+    except (ValueError, IndexError):
+        print("Ogiltigt val.")
+    pause()
+    
+def main():
+    people = load_from_csv()
+
+    while True:
+        os.system("cls")
+        clear_screen()
+
+        sort_list(people)
+
+        print("\n--- Kontaktlista ---")
+        show_list(people)
+
+        print("\nMeny:")
+        print("(L) Lägg till person")
+
+        
+if __name__ == "__main__":
+    main()
