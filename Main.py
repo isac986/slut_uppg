@@ -31,8 +31,27 @@ def show_list(people):
     if not people:
         print("Listan är tom.")
         return
+    
+    max_people = 5
+    
+    for i, person in enumerate(people[:max_people], 1):
+        print(f"{i}. {person['namn']}")
+        
+    if len(people) > max_people:
+        print("...")
+
+def show_all_people(people):
+    if not people:
+        print("Listan är tom.")
+        pause()
+        return
+
+    print("\n--- Hela kontaktlistan ---")
+
     for i, person in enumerate(people, 1):
         print(f"{i}. {person['namn']}")
+
+    pause()
 
 def sort_list(people):
     people.sort(key=lambda p: p['namn'].lower())
@@ -66,6 +85,9 @@ def show_details(people):
         print(f"Namn: {person['namn']}")
         print(f"Mobil: {person['mobil']}")
         print(f"Anteckningar: {person.get('anteckningar', '')}")
+        
+        pause()
+        
     except (ValueError, IndexError):
         print("Ogiltigt val.")
         pause()
@@ -112,6 +134,7 @@ def delete_person(people):
         print("Ogiltigt val.")
     pause()
     
+    # Huvud program
 def main():
     people = load_from_csv()
 
@@ -126,7 +149,30 @@ def main():
 
         print("\nMeny:")
         print("(L) Lägg till person")
+        print("(V) Visa detaljer")
+        print("(H) Visa hela listan")
+        print("(R) Redigera person")
+        print("(T) Ta bort person")
+        print("(A) Avsluta")
 
+        choice = input("\nVälj ett alternativ: ").lower()
+
+        if choice == "l":
+            add_person(people)
+        elif choice == "v":
+            show_details(people)
+        elif choice == "h":
+            show_all_people(people)        
+        elif choice == "r":
+            edit_person(people)
+        elif choice == "t":
+            delete_person(people)
+        elif choice == "a":
+            print("Programmet avslutas.")
+            break
+        else:
+            print("Ogiltigt val, försök igen.")
+            pause()
         
 if __name__ == "__main__":
     main()
